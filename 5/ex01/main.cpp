@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 09:46:38 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/06/18 19:51:38 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:59:16 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,17 @@ int main() {
 	}
 
 	std::cout <<  nooby << std::endl;
+
+	Form	contrat("contrat", 50, 42);
+	try {
+		Form	contratFail("contrat", -50, 42);
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	nooby.signForm(contrat);
+	nooby += 100;
+	nooby.signForm(contrat);
 	return (0);
 }
 

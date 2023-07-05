@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 20:05:33 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/06/18 20:39:33 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:22:14 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 #ifndef FORM_HPP
 #define FORM_HPP
 
-#include <iostream>
+# include <iostream>
+# include "Bureaucrat.hpp"
+
+class Bureaucrat;
 
 class Form {
 	private:

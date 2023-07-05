@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 20:05:09 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/06/18 20:38:20 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:52:16 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 #include "Form.hpp"
 
-Form::Form(const std::string& name, int gradeSigning, int gradeExecution) : _name(name), _signed(false) {
-	this->setGradeSigning(gradeSigning);
-	this->setGradeExecution(gradeExecution);
+Form::Form(const std::string& name, int gradeSigning, int gradeExecution) :
+_signed(false),
+_name(name),
+_gradeRequiredSigning(gradeSigning),
+_gradeRequiredExecution(gradeExecution) {
+	if (_gradeRequiredSigning < 1 || _gradeRequiredExecution < 1)
+		throw Form::GradeTooHighException();
+	if (_gradeRequiredSigning > 150 || _gradeRequiredExecution > 150)
+		throw Form::GradeTooLowException();
 	std::cout << "Form constructor assignment called" << std::endl;
 }
 
-Form::Form(const Form& other) : _name(other._name),  _signed(other._signed) {
-	this->setGradeSigning(other._gradeRequiredSigning);
-	this->setGradeExecution(other._gradeRequiredExecution);
+Form::Form(const Form& other) :
+_signed(other._signed),
+_name(other._name),
+_gradeRequiredSigning(other._gradeRequiredSigning),
+_gradeRequiredExecution(other._gradeRequiredExecution) {
 	std::cout << "Form Copy constructor called" << std::endl;
 }
 
@@ -38,22 +46,6 @@ Form&	Form::operator=(const Form& other) {
 }
 
 //Methode
-
-void	Form::setGradeSigning(int newGrade) {
-	if (newGrade < 1)
-		throw Form::GradeTooHighException();
-	if (newGrade > 150)
-		throw Form::GradeTooLowException();
-	this->_gradeRequiredSigning = newGrade;
-}
-
-void	Form::setGradeExecution(int newGrade) {
-	if (newGrade < 1)
-		throw Form::GradeTooHighException();
-	if (newGrade > 150)
-		throw Form::GradeTooLowException();
-	this->_gradeRequiredExecution = newGrade;
-}
 
 std::string	Form::getName(void) const {
 	return (_name);
@@ -74,6 +66,8 @@ void	Form::beSigned(const Bureaucrat& bureaucrat) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Form& form) {
-	os << form.getName() << ", bureaucrat grade " << form.getGrade();
+	os << form.getName()
+	<< " bureaucrat signe grade " << form.getGradeSigning()
+	<< " execution grade " << form.getGradeExecution();
 	return (os);
 }

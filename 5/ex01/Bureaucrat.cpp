@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 09:39:10 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/06/18 20:43:23 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:53:47 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat(const std::string& name, int grade) : name(name) {
-	this->setGrade(grade);
+Bureaucrat::Bureaucrat(const std::string& name, int grade) :
+name(name),
+grade(grade) {
 	std::cout << "Bureaucrat constructor assignment called" << std::endl;
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat& other) : name(other.name) {
-	this->setGrade(other.grade);
+Bureaucrat::Bureaucrat(const Bureaucrat& other) :
+name(other.name),
+grade(other.grade) {
 	std::cout << "Bureaucrat Copy constructor called" << std::endl;
 }
 
@@ -50,7 +52,7 @@ void	Bureaucrat::signForm(Form& form) {
 		form.beSigned( *this );
 		std::cout << *this << " signed " << form.getName() << std::endl;
 	} catch (Form::GradeTooLowException &e) {
-		std::cout << _name << " coulnd't sign " << form.getName() << " because " << e.what() << std::endl;
+		std::cout << name << " coulnd't sign " << form.getName() << " because " << e.what() << std::endl;
 	}
 }
 

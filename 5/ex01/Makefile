@@ -6,15 +6,16 @@
 #    By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 13:40:44 by yboudoui          #+#    #+#              #
-#    Updated: 2023/06/18 19:14:45 by yboudoui         ###   ########.fr        #
+#    Updated: 2023/07/05 09:54:51 by yboudoui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				=	Bureaucrat
+NAME				=	Form
 
 #-----------------------------------------------------------------------------#
 
 SRCS				=	main.cpp\
+						Form.cpp\
 						Bureaucrat.cpp
 
 OBJS				=	$(SRCS:.cpp=.o)
@@ -28,10 +29,10 @@ CXXFLAGS			=	-Wall -Wextra -Werror -std=c++98
 RM					=	rm -f
 
 .cpp.o:
-			$(CXX) $(CXXFLAGS)  -c $< -o $(<:.cpp=.o)
+			$(CXX) $(CXXFLAGS) -I . -c $< -o $(<:.cpp=.o)
 
 $(NAME):	$(OBJS)
-				$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+				$(CXX) $(CXXFLAGS) -I . $(OBJS) -o $(NAME)
 
 all:		$(NAME)
 
