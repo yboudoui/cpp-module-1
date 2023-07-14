@@ -6,7 +6,7 @@
 /*   By: yboudoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:54 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/07/05 11:05:32 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/13 10:14:25 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 # define SHRUBBERYCREATIONFORM_HPP
 
 # include "AForm.hpp"
+# include <fstream>
 
 class ShrubberyCreationForm : public AForm {
+	private:
+		const std::string	_target;
+		ShrubberyCreationForm();
+
 	public:
+		ShrubberyCreationForm(const std::string &target);
 		ShrubberyCreationForm(const ShrubberyCreationForm& other);
-		ShrubberyCreationForm(const std::string& name, int gradeSigning, int gradeExecution);
-		ShrubberyCreationForm& operator=(const ShrubberyCreationForm& other);
 		~ShrubberyCreationForm();
 
-		std::string	getName(void) const;
-		int			getGradeSigning(void) const;
-		int			getGradeExecution(void) const;
-		void		beSigned(const Bureaucrat& bureaucrat);
+		void	execute( const Bureaucrat& executor ) const;
 };
 
 #endif

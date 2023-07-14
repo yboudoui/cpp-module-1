@@ -16,9 +16,9 @@
 #define BUREAUCRAT_HPP
 
 # include <iostream>
-# include "Form.hpp"
+# include "AForm.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat {
 	private:
@@ -34,7 +34,8 @@ class Bureaucrat {
 
 		std::string	getName(void) const;
 		int			getGrade(void) const;
-		void		signForm(Form& form);
+		void		signForm(AForm& form);
+		void		executeForm(AForm const & form);
 
 		// Arithmetic operators
 		Bureaucrat& operator+=(int promotion);

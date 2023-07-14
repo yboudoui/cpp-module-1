@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 09:39:10 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/07/05 09:53:47 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:38:58 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 #include "Bureaucrat.hpp"
 
 Bureaucrat::Bureaucrat(const std::string& name, int grade) :
-name(name),
-grade(grade) {
+name(name)
+{
+	this->setGrade(grade);
 	std::cout << "Bureaucrat constructor assignment called" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other) :
-name(other.name),
-grade(other.grade) {
+name(other.name)
+{
+	this->setGrade(other.grade);
 	std::cout << "Bureaucrat Copy constructor called" << std::endl;
 }
 
@@ -45,6 +47,7 @@ void	Bureaucrat::setGrade(int newGrade) {
 	if (newGrade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	this->grade = newGrade;
+	std::cout << getName() << " have a new grade! " << grade << std::endl;
 }
 
 void	Bureaucrat::signForm(Form& form) {

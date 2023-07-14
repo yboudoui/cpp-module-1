@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 20:05:09 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/07/05 10:58:23 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/13 10:02:40 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ AForm::~AForm() {
 }
 
 AForm&	AForm::operator=(const AForm& other) {
-	std::cout << "AForm Copy assignment operator called. " << other._name << " to " << _name << std::endl;
 	if (this != &other)
 		this->_signed = other._signed;
 	return (*this);

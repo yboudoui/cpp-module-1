@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 09:39:10 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/07/05 09:53:47 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:42:06 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,29 @@ Bureaucrat&	Bureaucrat::operator=(const Bureaucrat& other) {
 
 //Methode
 
+void	Bureaucrat::executeForm(AForm const & form) {
+	try {
+    	form.execute( *this );
+		std::cout << name << " executed " << form.getName() << std::endl;
+    } catch ( std::exception& e ) {
+        std::cout << name << " couldn't execute " << form.getName() << " because " << e.what() << std::endl;
+    }
+}
+
 void	Bureaucrat::setGrade(int newGrade) {
 	if (newGrade < 1)
 		throw Bureaucrat::GradeTooHighException();
 	if (newGrade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	this->grade = newGrade;
+	std::cout << getName() << " have a new grade! " << grade << std::endl;
 }
 
-void	Bureaucrat::signForm(Form& form) {
+void	Bureaucrat::signForm(AForm& form) {
 	try {
 		form.beSigned( *this );
 		std::cout << *this << " signed " << form.getName() << std::endl;
-	} catch (Form::GradeTooLowException &e) {
+	} catch (AForm::GradeTooLowException &e) {
 		std::cout << name << " coulnd't sign " << form.getName() << " because " << e.what() << std::endl;
 	}
 }

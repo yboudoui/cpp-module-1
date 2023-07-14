@@ -6,7 +6,7 @@
 /*   By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 20:05:33 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/07/05 09:22:14 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:48:04 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ class Form {
 		const std::string	_name;
 		const int			_gradeRequiredSigning;
 		const int			_gradeRequiredExecution;
-
-		void	setGradeSigning(int newGrade);
-		void	setGradeExecution(int newGrade);
 
 	public:
 		Form(const Form& other);

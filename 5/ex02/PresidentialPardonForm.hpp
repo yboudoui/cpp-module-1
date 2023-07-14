@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RobotomyRequestForm.hpp                            :+:      :+:    :+:   */
+/*   PresidentialPardonForm.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboudoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/05 11:01:14 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/07/13 10:13:40 by yboudoui         ###   ########.fr       */
+/*   Created: 2023/07/13 10:19:15 by yboudoui          #+#    #+#             */
+/*   Updated: 2023/07/13 10:20:35 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ROBOTOMYREQUESTFORM_HPP
-# define ROBOTOMYREQUESTFORM_HPP
+#ifndef PRESIDENTIALPARDONFORM_HPP
+# define PRESIDENTIALPARDONFORM_HPP
 
 # include "AForm.hpp"
 
-class RobotomyRequestForm : public AForm {
+class PresidentialPardonForm : public AForm {
 	private:
 		const std::string	_target;
-		RobotomyRequestForm();
+		PresidentialPardonForm();
 
 	public:
-		RobotomyRequestForm(const std::string &target);
-		RobotomyRequestForm(const RobotomyRequestForm& other);
-		~RobotomyRequestForm();
+		PresidentialPardonForm(const std::string &target);
+		PresidentialPardonForm(const PresidentialPardonForm& other);
+		~PresidentialPardonForm();
 
 		void	execute( const Bureaucrat& executor ) const;
 };
