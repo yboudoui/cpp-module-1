@@ -6,16 +6,16 @@
 #    By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/02 13:40:44 by yboudoui          #+#    #+#              #
-#    Updated: 2023/07/28 09:07:15 by yboudoui         ###   ########.fr        #
+#    Updated: 2023/07/28 09:07:24 by yboudoui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				=	ScalarConverter
+NAME				=	Serializer
 
 #-----------------------------------------------------------------------------#
 
 SRCS				=	main.cpp\
-						ScalarConverter.cpp
+						Serializer.cpp
 
 OBJS				=	$(SRCS:.cpp=.o)
 
