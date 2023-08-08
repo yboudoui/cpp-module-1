@@ -5,17 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/07/31 14:53:22 by yboudoui          #+#    #+#              #
-#    Updated: 2023/08/08 11:25:11 by yboudoui         ###   ########.fr        #
+#    Created: 2023/07/31 14:04:15 by yboudoui          #+#    #+#              #
+#    Updated: 2023/08/08 11:29:27 by yboudoui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				=	Span
+NAME				=	 Mutated_abomination
 
 #-----------------------------------------------------------------------------#
 
 SRCS				=	main.cpp\
-						Span.cpp
 
 OBJS				=	$(SRCS:.cpp=.o)
 

@@ -6,18 +6,42 @@
 #    By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 14:04:15 by yboudoui          #+#    #+#              #
-#    Updated: 2023/07/31 14:04:18 by yboudoui         ###   ########.fr        #
+#    Updated: 2023/08/08 11:18:40 by yboudoui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = g++
-CFLAGS = -std=c++98 -Wall -Wextra
+NAME				=	easyfind
 
-all: main
+#-----------------------------------------------------------------------------#
 
-main: main.cpp
-	$(CC) $(CFLAGS) main.cpp -o main
+SRCS				=	main.cpp\
+
+OBJS				=	$(SRCS:.cpp=.o)
+
+#-----------------------------------------------------------------------------#
+
+CXX					=	c++
+
+CXXFLAGS			=	-Wall -Wextra -Werror -std=c++98
+
+RM					=	rm -f
+
+.cpp.o:
+			$(CXX) $(CXXFLAGS) -I. -c $< -o $(<:.cpp=.o)
+
+all:		$(NAME)
+
+$(NAME):	$(OBJS)
+			$(CXX) $(CXXFLAGS) -I. $(OBJS) -o $(NAME)
+
 
 clean:
-	rm -f main
+			$(RM) $(OBJS)
 
+fclean:		clean
+				$(RM) $(NAME)
+
+re:			fclean
+			make all
+
+.PHONY:		all clean fclean re
