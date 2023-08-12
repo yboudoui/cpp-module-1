@@ -6,7 +6,7 @@
 /*   By: yboudoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 13:16:07 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/08/11 23:52:00 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:29:15 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 #include <vector>
 #include <utility>
 
-template<typename V, int N>
-void	ford_johnson(std::vector<V> *v_n);
+//template<typename V, int N>
+//void	ford_johnson(std::vector<V> *v_n);
+
+std::vector<int>	ford_johnson(std::vector<int> v_n, size_t size);
 
 template<typename T>
 std::string toString(const T& value)
@@ -51,7 +53,8 @@ int	main(int ac, char *av[])
 		av += 1;
 	}
 
-	ford_johnson<int, 32>(&v_n);
+	ford_johnson(v_n, 1);
+//	ford_johnson<int, 32>(&v_n);
 	return (0);
 }
 /*
@@ -69,49 +72,98 @@ static const jacobsthal_diff[] = {
 1537228672809129216u, 3074457345618258432u, 6148914691236516864u
 };
 */
+
 template<typename V>
-void	binary_insert(std::vector<V> *i, typename std::vector<V>::iterator begin, typename std::vector<V>::iterator end, V v)
-{
-	typename std::vector<V>::iterator bound = std::upper_bound(begin, end, v);
-	i->insert(bound, v);
+void	p_v(std::string name, std::vector<V> v) {
+	std::cout << name << " =[" << v.size() << "]{ ";
+	for (size_t n = 0; n != v.size(); n++)
+		std::cout << v[n] << ((n == v.size() - 1) ? " " : ", ");
+	std::cout << "}; \n";
 }
 
-template<typename V, int N>
-void	ford_johnson(std::vector<V> *v_n)
-{
-	size_t	limit = v_n->size();
-	if (limit == 1) { return; }
-
-	std::vector< std::pair<V,V> >	tmp;
-	V			*remaind = NULL;
-
-	std::pair<V,V>	pair;
-	if (limit % 2) { remaind = new V((*v_n)[limit--]); }
-	for (size_t i = 0; i != limit; i += 2) {
-		if ((*v_n)[i] < (*v_n)[i + 1]) {
-			pair = std::make_pair((*v_n)[i + 1], (*v_n)[i]);
-		} else {
-			pair = std::make_pair((*v_n)[i], (*v_n)[i + 1]);
+template<typename V>
+void	p_v(std::string name, std::vector<V> v, size_t size) {
+	std::cout << name << " =[" << v.size() << "]{";
+	for (size_t n = 0; n != v.size(); n += size) {
+		std::cout << " {";
+		for (size_t i = 0; i != size; i++) {
+			std::cout << v[n + i] << ((i == size - 1) ? "" : ", ");
 		}
-		tmp.insert(tmp.begin(), pair);
+		std::cout << "}";
+	}
+	std::cout << " }; \n";
+}
+
+size_t	find_pos(std::vector<int>::iterator first, std::vector<int>::iterator last, int v)
+{
+	std::vector<int>::iterator	start = first;
+	size_t	size = std::distance(first, last) / 2;
+	while (size) {
+		if (v > *(first + size)) { last -= size; } else { first += size; }
+		size = std::distance(first, last) / 2;
+	}
+	return ((v > (*first)) ? start - first : last - start);
+}
+
+std::vector<int>	ford_johnson(std::vector<int> v_n, size_t size)
+{
+	size_t		dist = v_n.size();
+	if ( (dist / size) == 1.0 ) { return (v_n); }
+
+	std::vector<int>	*remaind = NULL;
+	int					mod = dist % (size * 2);
+	if (mod) {
+		remaind = new std::vector<int>(v_n.end() - mod, v_n.end());
+		dist -= mod;
 	}
 
-	ford_johnson<V, N - 1>(&tmp);
+	std::cout << "======================" << std::endl;
+	std::cout << "Size " << size << std::endl;
+	p_v("v_n", v_n);
+	if (remaind)
+		p_v("remaind", *remaind);
 
-	std::vector<V>		v_o;
-	std::vector<V>		b_tmp;
-
-	for (typename std::vector< std::pair<V,V> >::iterator i = tmp.begin(); i != tmp.end(); i++) {
-		v_o.insert(v_o.begin(), i->first);
+	std::vector<int>	tmp;
+	for (size_t i = 0; i <= dist - (size * 2); i += size * 2) {
+		if (v_n.at(i) > v_n.at(i + size)) {
+			tmp.insert(tmp.end(), v_n.begin() + i, v_n.begin() + (i + size));
+			tmp.insert(tmp.end(), v_n.begin() + (i + size), v_n.begin() + (i + (size * 2)));
+		} else {
+			tmp.insert(tmp.end(), v_n.begin() + (i + size), v_n.begin() + (i + (size * 2)));
+			tmp.insert(tmp.end(), v_n.begin() + i, v_n.begin() + (i + size));
+		}
+		p_v("tmp", tmp, size * 2 );
 	}
-	v_o.insert(v_o.begin(), tmp.end()->second);
 
-	for (typename std::vector< std::pair<V,V> >::iterator i = tmp.begin(); i != tmp.end(); i++) {
-		binary_insert(&v_o, v_o.begin(), v_o.end(), i->second);
-	}
+	tmp = ford_johnson(tmp, size * 2);
+	std::cout << "==SIZE==" << size << std::endl;
+	p_v("====> tmp", tmp, size);
+	size_t	pos = 0;
+	std::vector<int>	a;
+	std::vector<int>	out;
+	if ((tmp.size() / size) != 2) {
+		for (size_t i = 0; i <= dist - size; i += (size * 2)) {
+			out.insert(out.end(), tmp.begin() + i, tmp.begin() + (i + size));
+			a.insert(a.end(), tmp.at(i));
+		}
+		for (size_t i = size; i <= dist - size; i += (size * 2)) {
+			pos = find_pos(a.begin(), a.end(), tmp.at(i));
+			a.insert(a.begin() + pos, tmp.at(i));
+			out.insert(out.begin() + (pos * size),
+				(tmp.begin() + i),
+				(tmp.begin() + (i + size ))
+			);
+		}
+	} else { out = tmp; }
+
+	if (remaind)
+		p_v("remaind", *remaind);
+
 	if (remaind) {
-		binary_insert(&v_o, v_o.begin(), v_o.end(), *remaind);
+		pos = find_pos(a.begin(), a.end(), (*remaind)[0]);
+		out.insert(out.begin() + (pos * size), remaind->begin(), remaind->end());
 		delete remaind;
 	}
-	return ;
+	p_v("2 ==> out", out, size);
+	return (out);
 }
