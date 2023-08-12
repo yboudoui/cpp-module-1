@@ -6,7 +6,7 @@
 /*   By: yboudoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 13:16:07 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/08/12 12:29:15 by yboudoui         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:53:17 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,28 @@
 #include <vector>
 #include <utility>
 
-//template<typename V, int N>
-//void	ford_johnson(std::vector<V> *v_n);
-
 std::vector<int>	ford_johnson(std::vector<int> v_n, size_t size);
+
+template<typename V>
+void	p_v(std::string name, std::vector<V> v) {
+	std::cout << name << " =[" << v.size() << "]{ ";
+	for (size_t n = 0; n != v.size(); n++)
+		std::cout << v[n] << ((n == v.size() - 1) ? " " : ", ");
+	std::cout << "}; \n";
+}
+
+template<typename V>
+void	p_v(std::string name, std::vector<V> v, size_t size) {
+	std::cout << name << " =[" << v.size() << "]{";
+	for (size_t n = 0; n != v.size(); n += size) {
+		std::cout << " {";
+		for (size_t i = 0; i != size; i++) {
+			std::cout << v[n + i] << ((i == size - 1) ? "" : ", ");
+		}
+		std::cout << "}";
+	}
+	std::cout << " }; \n";
+}
 
 template<typename T>
 std::string toString(const T& value)
@@ -53,12 +71,11 @@ int	main(int ac, char *av[])
 		av += 1;
 	}
 
-	ford_johnson(v_n, 1);
-//	ford_johnson<int, 32>(&v_n);
+	p_v("result",ford_johnson(v_n, 1));
 	return (0);
 }
-/*
-static const jacobsthal_diff[] = {
+
+static const unsigned long jacobsthal_diff[] = {
 2u, 2u, 6u, 10u, 22u, 42u, 86u, 170u, 342u, 682u, 1366u,
 2730u, 5462u, 10922u, 21846u, 43690u, 87382u, 174762u, 349526u, 699050u,
 1398102u, 2796202u, 5592406u, 11184810u, 22369622u, 44739242u, 89478486u,
@@ -71,28 +88,6 @@ static const jacobsthal_diff[] = {
 96076792050570576u, 192153584101141152u, 384307168202282304u, 768614336404564608u,
 1537228672809129216u, 3074457345618258432u, 6148914691236516864u
 };
-*/
-
-template<typename V>
-void	p_v(std::string name, std::vector<V> v) {
-	std::cout << name << " =[" << v.size() << "]{ ";
-	for (size_t n = 0; n != v.size(); n++)
-		std::cout << v[n] << ((n == v.size() - 1) ? " " : ", ");
-	std::cout << "}; \n";
-}
-
-template<typename V>
-void	p_v(std::string name, std::vector<V> v, size_t size) {
-	std::cout << name << " =[" << v.size() << "]{";
-	for (size_t n = 0; n != v.size(); n += size) {
-		std::cout << " {";
-		for (size_t i = 0; i != size; i++) {
-			std::cout << v[n + i] << ((i == size - 1) ? "" : ", ");
-		}
-		std::cout << "}";
-	}
-	std::cout << " }; \n";
-}
 
 size_t	find_pos(std::vector<int>::iterator first, std::vector<int>::iterator last, int v)
 {
@@ -105,6 +100,27 @@ size_t	find_pos(std::vector<int>::iterator first, std::vector<int>::iterator las
 	return ((v > (*first)) ? start - first : last - start);
 }
 
+std::vector<int>	swap_using_size(std::vector<int> input, size_t size)
+{
+	std::vector<int>			out;
+	std::vector<int>::iterator	it;
+
+	for (it = input.begin(); it != input.end(); it += size * 2) {
+		if (*it > *(it + size)) {
+			out.insert(out.end(), it, it + size);
+			it += size;
+			out.insert(out.end(), it, it + size);
+			it -= size;
+		} else {
+			it += size;
+			out.insert(out.end(), it, it + size);
+			it -= size;
+			out.insert(out.end(), it, it + size);
+		}
+	}
+	return (out);
+}
+
 std::vector<int>	ford_johnson(std::vector<int> v_n, size_t size)
 {
 	size_t		dist = v_n.size();
@@ -115,44 +131,63 @@ std::vector<int>	ford_johnson(std::vector<int> v_n, size_t size)
 	if (mod) {
 		remaind = new std::vector<int>(v_n.end() - mod, v_n.end());
 		dist -= mod;
+		v_n.erase(v_n.end() - mod, v_n.end());
 	}
 
-	std::cout << "======================" << std::endl;
-	std::cout << "Size " << size << std::endl;
-	p_v("v_n", v_n);
-	if (remaind)
-		p_v("remaind", *remaind);
-
-	std::vector<int>	tmp;
-	for (size_t i = 0; i <= dist - (size * 2); i += size * 2) {
-		if (v_n.at(i) > v_n.at(i + size)) {
-			tmp.insert(tmp.end(), v_n.begin() + i, v_n.begin() + (i + size));
-			tmp.insert(tmp.end(), v_n.begin() + (i + size), v_n.begin() + (i + (size * 2)));
-		} else {
-			tmp.insert(tmp.end(), v_n.begin() + (i + size), v_n.begin() + (i + (size * 2)));
-			tmp.insert(tmp.end(), v_n.begin() + i, v_n.begin() + (i + size));
-		}
-		p_v("tmp", tmp, size * 2 );
-	}
-
-	tmp = ford_johnson(tmp, size * 2);
-	std::cout << "==SIZE==" << size << std::endl;
-	p_v("====> tmp", tmp, size);
-	size_t	pos = 0;
-	std::vector<int>	a;
 	std::vector<int>	out;
+	std::vector<int>	tmp;
+
+	p_v("0 ==> tmp", v_n, size * 2);
+	tmp = swap_using_size(v_n, size);
+	p_v("1 ==> tmp", tmp, size * 2);
+	tmp = ford_johnson(tmp, size * 2);
+	p_v("2 ==> tmp", tmp, size);
+
+	size_t									pos = 0;
+	std::vector<int>						a;
+/*
+	std::vector<int>	b;
 	if ((tmp.size() / size) != 2) {
 		for (size_t i = 0; i <= dist - size; i += (size * 2)) {
 			out.insert(out.end(), tmp.begin() + i, tmp.begin() + (i + size));
 			a.insert(a.end(), tmp.at(i));
+			b.insert(b.end(), tmp.begin() + (i + size));
 		}
-		for (size_t i = size; i <= dist - size; i += (size * 2)) {
-			pos = find_pos(a.begin(), a.end(), tmp.at(i));
-			a.insert(a.begin() + pos, tmp.at(i));
-			out.insert(out.begin() + (pos * size),
-				(tmp.begin() + i),
-				(tmp.begin() + (i + size ))
-			);
+		for (size_t i = 0; (jacobsthal_diff[i] - 1) < b.size(); i++) {
+			int k = jacobsthal_diff[i] - 1;
+			pos = find_pos(a.begin(), a.end(), *b.at(k));
+			a.insert(a.begin() + pos, *b.at(k));
+			out.insert(out.begin() + (pos * size), b.at(k), b.at(k) + size);
+			b.erase(b.begin() + k);
+		}
+		for (size_t i = 0; i != b.size(); i++) {
+			pos = find_pos(a.begin(), a.end(), *b.at(i));
+			a.insert(a.begin() + pos, *b.at(i));
+			out.insert(out.begin() + (pos * size), b.at(i), b.at(i) + size);
+		}
+	} else { out = tmp; }
+*/
+
+	std::vector<std::vector<int>::iterator>	b;
+	if ((tmp.size() / size) != 2) {
+		for (size_t i = 0; i < (tmp.size() - size); i += (size * 2)) {
+			out.insert(out.end(), tmp.begin() + i, tmp.begin() + (i + size));
+			a.insert(a.end(), tmp.at(i));
+			b.insert(b.end(), (tmp.begin() + (i + size)));
+		}
+		for (size_t i = 0; (jacobsthal_diff[i] - 1) < b.size(); i++) {
+			int k = jacobsthal_diff[i] - 1;
+			//pos = find_pos(a.begin(), a.end(), *b.at(k));
+			pos = find_pos(a.begin() + k - 1, a.end(), *b.at(k));
+			a.insert(a.begin() + pos, *b.at(k));
+			out.insert(out.begin() + (pos * size), b.at(k), b.at(k) + size);
+			b.erase(b.begin() + k);
+		}
+		while (b.size()) {
+			pos = find_pos(a.begin(), a.end(), *b.at(0));
+			a.insert(a.begin() + pos, *b.at(0));
+			out.insert(out.begin() + (pos * size), b.at(0), b.at(0) + size);
+			b.erase(b.begin());
 		}
 	} else { out = tmp; }
 
@@ -165,5 +200,6 @@ std::vector<int>	ford_johnson(std::vector<int> v_n, size_t size)
 		delete remaind;
 	}
 	p_v("2 ==> out", out, size);
+	std::cout << "======================================" << std::endl;
 	return (out);
 }
