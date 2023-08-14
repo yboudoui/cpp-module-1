@@ -1,2 +1,0 @@
-c++ -Wall -Wextra -Werror -std=c++98 -I. -c main.cpp -o main.o
-make: *** [Makefile:30: main.o] Interrompre

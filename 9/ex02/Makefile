@@ -6,7 +6,7 @@
 #    By: yboudoui <yboudoui@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 14:04:15 by yboudoui          #+#    #+#              #
-#    Updated: 2023/08/12 18:58:28 by yboudoui         ###   ########.fr        #
+#    Updated: 2023/08/13 21:54:50 by yboudoui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJS				=	$(SRCS:.cpp=.o)
 
 CXX					=	c++
 
-CXXFLAGS			=	-Wall -Wextra -Werror -std=c++98 -g3
+CXXFLAGS			=	-Wall -Wextra -Werror -std=c++98
 
 RM					=	rm -f
 
@@ -44,9 +44,4 @@ fclean:		clean
 re:			fclean
 			make all
 
-val:
-	valgrind -q ./$(NAME) 6 5 9 8 7 10 15 11 12 19 21 2 3 1 13 32 42 56 34 89 74 75 79
-
-val2:
-	valgrind -q ./$(NAME) $(shuf -i 0-100000 -n 5000 | tr '\n' ' ')
 .PHONY:		all clean fclean re

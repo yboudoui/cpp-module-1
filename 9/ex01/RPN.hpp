@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboudoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 13:16:07 by yboudoui          #+#    #+#             */
-/*   Updated: 2023/08/13 17:51:04 by yboudoui         ###   ########.fr       */
+/*   Created: 2023/08/13 17:44:19 by yboudoui          #+#    #+#             */
+/*   Updated: 2023/08/13 17:48:13 by yboudoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RPN.hpp"
+#ifndef RPN_HPP
+# define RPN_HPP
 
-int	main(int ac, char *av[])
+# include <stack>
+# include <string>
+# include <iostream>
+# include <cstdlib>
+# include <sstream>
+
+template<typename T>
+std::string toString(const T& value)
 {
-	std::stack<int>		number;
-	std::stack<char>	operand;
-
-	if (ac != 2) {
-		std::cerr << "Error: wrong number of input. Expected 1 have " << toString(ac - 1) << std::endl;
-		return (1);
-	}
-
-	try { std::cout <<  rpn(av[1]) << std::endl; }
-	catch (std::exception &e) { std::cerr << e.what() << std::endl; }
-	return (0);
+	std::ostringstream oss;
+	oss << value;
+	return oss.str();
 }
+
+int	rpn(std::string str);
+#endif
